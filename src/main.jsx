@@ -7,16 +7,19 @@ import RootLayout from './Layout/RootLayout';
 import Homepage from './pages/homepage/Homepage';
 import Timeline from './pages/timeline/Timeline';
 import Stats from './pages/stats/Stats';
+import Notfound from './pages/notfound/Notfound';
 
 
 
 const router = createBrowserRouter([
-  {
+  
+  
+    {
     path: "/",
     element: <RootLayout />,
-  },
-  {
-    path: "/homapge",
+      children: [
+        {
+    index: true,
     element: <Homepage />,
   },
   {
@@ -27,6 +30,13 @@ const router = createBrowserRouter([
     path: "/stats",
     element: <Stats />,
   },
+
+  ],
+  errorElement: <Notfound />
+  },
+  
+
+
   
   
 ]);
