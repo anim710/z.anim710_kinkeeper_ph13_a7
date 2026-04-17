@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "name": "Sarah Mitchell",
+    "picture": "https://randomuser.me/api/portraits/women/44.jpg",
+    "email": "sarah.mitchell@gmail.com",
+    "days_since_contact": 5,
+    "status": "on-track",
+    "tags": ["college", "close friend"],
+    "bio": "Met in freshman year of college. We have traveled to 6 countries together.",
+    "goal": 14,
+    "next_due_date": "2026-04-25"
+  },
+  {
+    "id": 2,
+    "name": "David Kim",
+    "picture": "https://randomuser.me/api/portraits/men/32.jpg",
+    "email": "david.kim@outlook.com",
+    "days_since_contact": 21,
+    "status": "overdue",
+    "tags": ["work", "mentor"],
+    "bio": "My former manager at my first job. Taught me everything about product management.",
+    "goal": 14,
+    "next_due_date": "2026-04-10"
+  },
+  {
+    "id": 3,
+    "name": "Emma Wilson",
+    "picture": "https://randomuser.me/api/portraits/women/68.jpg",
+    "email": "emma.wilson@yahoo.com",
+    "days_since_contact": 11,
+    "status": "almost due",
+    "tags": ["childhood", "neighbor"],
+    "bio": "Grew up two houses down from me. Friends since kindergarten.",
+    "goal": 10,
+    "next_due_date": "2026-04-18"
+  },
+  {
+    "id": 4,
+    "name": "James Wright",
+    "picture": "https://randomuser.me/api/portraits/men/75.jpg",
+    "email": "james.wright@proton.me",
+    "days_since_contact": 3,
+    "status": "on-track",
+    "tags": ["gym", "close friend"],
+    "bio": "Training partner for two years. We signed up for a marathon and both finished.",
+    "goal": 7,
+    "next_due_date": "2026-04-20"
+  },
+  {
+    "id": 5,
+    "name": "Lisa Nakamura",
+    "picture": "https://randomuser.me/api/portraits/women/26.jpg",
+    "email": "lisa.nakamura@gmail.com",
+    "days_since_contact": 18,
+    "status": "overdue",
+    "tags": ["university", "study group"],
+    "bio": "Same grad school cohort. She moved to Tokyo and we video call every two weeks.",
+    "goal": 14,
+    "next_due_date": "2026-04-08"
+  },
+  {
+    "id": 6,
+    "name": "Omar Hassan",
+    "picture": "https://randomuser.me/api/portraits/men/46.jpg",
+    "email": "omar.hassan@gmail.com",
+    "days_since_contact": 7,
+    "status": "on-track",
+    "tags": ["work", "team"],
+    "bio": "Same startup team for three years. Now building his own company.",
+    "goal": 14,
+    "next_due_date": "2026-04-28"
+  },
+  {
+    "id": 7,
+    "name": "Priya Sharma",
+    "picture": "https://randomuser.me/api/portraits/women/55.jpg",
+    "email": "priya.sharma@hotmail.com",
+    "days_since_contact": 13,
+    "status": "almost due",
+    "tags": ["book club", "close friend"],
+    "bio": "Started a book club together. Now 8 members strong. Great taste in fiction.",
+    "goal": 14,
+    "next_due_date": "2026-04-20"
+  },
+  {
+    "id": 8,
+    "name": "Carlos Rivera",
+    "picture": "https://randomuser.me/api/portraits/men/60.jpg",
+    "email": "carlos.rivera@gmail.com",
+    "days_since_contact": 30,
+    "status": "overdue",
+    "tags": ["high school", "band"],
+    "bio": "We were in the same band in high school. Still sends me guitar recordings.",
+    "goal": 21,
+    "next_due_date": "2026-04-05"
+  }
+]

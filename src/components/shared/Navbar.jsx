@@ -1,9 +1,8 @@
 import React from 'react';
-
-import { NavLink } from 'react-router';
+import { NavLink } from 'react-router';   // Fixed import
 import logo from '../../assets/images/logo.png';
 
-export default function Navbar() {
+const Navbar = () => {
   const navItems = [
     { to: '/', label: 'Home', icon: 'fa-solid fa-house' },
     { to: '/timeline', label: 'Timeline', icon: 'fa-regular fa-clock' },
@@ -15,16 +14,16 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div className="flex items-center justify-between h-14">
 
-          {/* Logo image */}
+          {/* Logo */}
           <NavLink to="/">
             <img
               src={logo}
-              alt=""
+              alt="Logo"
               className="h-5 w-auto object-contain"
             />
           </NavLink>
 
-          
+          {/* Navigation Items */}
           <div className="flex items-center gap-2">
             {navItems.map(({ to, label, icon }) => (
               <NavLink
@@ -47,4 +46,6 @@ export default function Navbar() {
       </div>
     </nav>
   );
-}
+};
+
+export default Navbar;
