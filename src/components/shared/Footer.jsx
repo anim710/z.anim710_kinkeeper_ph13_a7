@@ -26,14 +26,14 @@ const Footer = () => {
 
         {/* Social icons — using local images */}
         <div className="flex items-center justify-center gap-4 mb-10">
-          <a href="#" className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors duration-150">
-            <img src={instagram} alt="Instagram" className="w-5 h-5 object-contain brightness-0 invert" />
+          <a href="#" className="">
+            <img src={instagram} alt="Instagram" className="w-8 h-8 " />
           </a>
-          <a href="#" className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors duration-150">
-            <img src={facebook} alt="Facebook" className="w-5 h-5 object-contain brightness-0 invert" />
+          <a href="#" className="">
+            <img src={facebook} alt="Facebook" className="w-8 h-8 " />
           </a>
-          <a href="#" className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors duration-150">
-            <img src={twitter} alt="Twitter" className="w-5 h-5 object-contain brightness-0 invert" />
+          <a href="#" className="">
+            <img src={twitter} alt="Twitter" className="w-8 h-8 " />
           </a>
         </div>
 

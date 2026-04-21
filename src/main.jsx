@@ -54,7 +54,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
        
        <TimelineProvider>
-      <Toaster position="bottom-right" />
+      <Toaster position="top-right" />
       <RouterProvider router={router} />
     </TimelineProvider>
   </StrictMode>,
