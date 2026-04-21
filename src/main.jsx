@@ -8,6 +8,7 @@ import Homepage from './pages/homepage/Homepage';
 import Timeline from './pages/timeline/Timeline';
 import Stats from './pages/stats/Stats';
 import Notfound from './pages/notfound/Notfound';
+import FriendDetail from './pages/frienddetail/FriendDetail' 
 
 
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/stats",
     element: <Stats />,
+  },
+  {
+        path: "friend/:id",   // ← add this route
+        element: <FriendDetail />,
   },
 
   ],
