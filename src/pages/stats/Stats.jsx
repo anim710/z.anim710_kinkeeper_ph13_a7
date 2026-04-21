@@ -1,4 +1,4 @@
-import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from 'recharts'
+import { PieChart, Pie, Cell,Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { useTimeline } from '../../context/TimelineContext'
 
 const Stats = () => {
@@ -33,27 +33,36 @@ const Stats = () => {
           ) : (
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
-                <Pie
-                  data={pieData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={80}
-                  outerRadius={120}
-                  paddingAngle={4}
-                  dataKey="value"
-                >
-                  {pieData.map((entry, index) => (
-                    <Cell key={index} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Legend
-                  iconType="circle"
-                  iconSize={8}
-                  formatter={(value) => (
-                    <span style={{ fontSize: 13, color: '#6b7280' }}>{value}</span>
-                  )}
-                />
-              </PieChart>
+  <Pie
+    data={pieData}
+    cx="50%"
+    cy="50%"
+    innerRadius={80}
+    outerRadius={120}
+    paddingAngle={4}
+    dataKey="value"
+  >
+    {pieData.map((entry, index) => (
+      <Cell key={index} fill={entry.color} />
+    ))}
+  </Pie>
+  <Tooltip
+    formatter={(value, name) => [value, name]}
+    contentStyle={{
+      borderRadius: '8px',
+      border: '1px solid #e5e7eb',
+      fontSize: '13px',
+      color: '#374151',
+    }}
+  />
+  <Legend
+    iconType="circle"
+    iconSize={8}
+    formatter={(value) => (
+      <span style={{ fontSize: 13, color: '#6b7280' }}>{value}</span>
+    )}
+  />
+</PieChart>
             </ResponsiveContainer>
           )}
         </div>
