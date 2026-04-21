@@ -8,7 +8,10 @@ import Homepage from './pages/homepage/Homepage';
 import Timeline from './pages/timeline/Timeline';
 import Stats from './pages/stats/Stats';
 import Notfound from './pages/notfound/Notfound';
-import FriendDetail from './pages/frienddetail/FriendDetail' 
+import FriendDetail from './pages/frienddetail/FriendDetail' ;
+import { TimelineProvider } from './context/TimelineContext'  // ← add this
+import { Toaster } from 'react-hot-toast'
+
 
 
 
@@ -50,6 +53,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
        
-        <RouterProvider router={router} />
+       <TimelineProvider>
+      <Toaster position="bottom-right" />
+      <RouterProvider router={router} />
+    </TimelineProvider>
   </StrictMode>,
 )

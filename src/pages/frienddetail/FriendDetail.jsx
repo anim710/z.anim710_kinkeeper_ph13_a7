@@ -1,104 +1,81 @@
-// FriendDetail shows full info about one friend
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router';
-import toast, { Toaster } from 'react-hot-toast';
+import { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router'
+import toast from 'react-hot-toast'
+import { useTimeline } from '../../context/TimelineContext'  // ← add this
 
 const FriendDetail = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const { id } = useParams()
+  const navigate = useNavigate()
+  const { addEntry } = useTimeline()   // ← get addEntry from context
 
-  const [friend, setFriend] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [goal, setGoal] = useState(14);
-  const [editingGoal, setEditingGoal] = useState(false);
-  const [tempGoal, setTempGoal] = useState(14);
-  const [timeline, setTimeline] = useState([]);
+  const [friend, setFriend]           = useState(null)
+  const [loading, setLoading]         = useState(true)
+  const [goal, setGoal]               = useState(0)
+  const [editingGoal, setEditingGoal] = useState(false)
+  const [tempGoal, setTempGoal]       = useState(0)
 
-  // Counter for generating unique IDs (clean & stable)
-  const entryIdCounter = useRef(1000);
-
-  // Load friend data
   useEffect(() => {
     fetch('/friends.json')
       .then((res) => res.json())
       .then((data) => {
-        const found = data.find((f) => f.id === parseInt(id));
-        if (found) {
-          setFriend(found);
-          setGoal(found.goal || 14);
-          setTempGoal(found.goal || 14);
-        }
-        setLoading(false);
+        const found = data.find((f) => f.id === parseInt(id))
+        setFriend(found)
+        setGoal(found?.goal || 14)
+        setTempGoal(found?.goal || 14)
+        setLoading(false)
       })
-      .catch(() => setLoading(false));
-  }, [id]);
+  }, [id])
 
-  // Handle check-in (Call, Text, Video)
-  const handleCheckIn = useCallback((type) => {
-    if (!friend) return;
+  // Now this saves to global context — Timeline and Stats will update
+  const handleCheckIn = (type) => {
+    const label = type.charAt(0).toUpperCase() + type.slice(1)
 
-    const today = new Date().toISOString().split('T')[0];
-    const label = type.charAt(0).toUpperCase() + type.slice(1);
+    // This adds to the global entries list in TimelineContext
+    addEntry(type, friend.id, friend.name)
 
-    const newEntry = {
-      id: `entry-${++entryIdCounter.current}`,     // Clean unique ID using useRef
-      type,
-      title: `${label} with ${friend.name}`,
-      date: today,
-    };
-
-    setTimeline((prev) => [newEntry, ...prev]);
-
+    // Show toast notification
     toast.success(`${label} with ${friend.name} logged!`, {
       style: { borderRadius: '12px' },
-    });
-  }, [friend]);
+    })
+  }
 
   const statusClass = {
-    overdue: 'status-overdue',
+    'overdue':    'status-overdue',
     'almost due': 'status-almost-due',
-    'on-track': 'status-on-track',
-  };
-
+    'on-track':   'status-on-track',
+  }
   const statusLabel = {
-    overdue: 'Overdue',
+    'overdue':    'Overdue',
     'almost due': 'Almost Due',
-    'on-track': 'On Track',
-  };
+    'on-track':   'On Track',
+  }
 
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[300px]">
-        <div className="w-10 h-10 border-4 border-green-200 border-t-[#1e4d3b] rounded-full animate-spin" />
+        <div className="w-10 h-10 border-4 border-green-200 border-t-[#1e4d3b] rounded-full spinner" />
       </div>
-    );
+    )
   }
 
   if (!friend) {
     return (
       <div className="text-center py-20 text-gray-500">
         Friend not found.{' '}
-        <button
-          onClick={() => navigate('/')}
-          className="text-[#1e4d3b] underline hover:text-[#2a6b52]"
-        >
+        <button onClick={() => navigate('/')} className="text-[#1e4d3b] underline">
           Go home
         </button>
       </div>
-    );
+    )
   }
 
   const formattedDate = new Date(friend.next_due_date).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
+    month: 'short', day: 'numeric', year: 'numeric',
+  })
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <Toaster position="bottom-right" />
 
-      {/* Back button */}
       <button
         onClick={() => navigate('/')}
         className="flex items-center gap-2 text-gray-500 hover:text-gray-900 mb-6 text-sm font-medium"
@@ -107,9 +84,9 @@ const FriendDetail = () => {
         Back to Friends
       </button>
 
-      {/* Main Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        {/* LEFT: Profile Info */}
+
+        {/* LEFT: Profile info */}
         <div className="lg:col-span-2">
           <div className="bg-white rounded-2xl p-6 border border-gray-100">
             <div className="flex flex-col items-center text-center mb-5">
@@ -119,40 +96,31 @@ const FriendDetail = () => {
                 className="w-24 h-24 rounded-full object-cover border-4 border-green-100 mb-3"
               />
               <h1 className="text-2xl font-bold text-gray-900">{friend.name}</h1>
-              <span
-                className={`mt-2 text-xs font-semibold px-3 py-1 rounded-full ${statusClass[friend.status]}`}
-              >
+              <span className={`mt-2 text-xs font-semibold px-3 py-1 rounded-full ${statusClass[friend.status]}`}>
                 {statusLabel[friend.status]}
               </span>
             </div>
 
-            {/* Email */}
             <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
               <i className="fa-regular fa-envelope text-gray-400"></i>
               <span>{friend.email}</span>
             </div>
 
-            {/* Tags */}
             <div className="flex items-start gap-2 mb-4">
               <i className="fa-solid fa-tag text-gray-400 mt-0.5 text-sm"></i>
               <div className="flex flex-wrap gap-1">
                 {friend.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full"
-                  >
+                  <span key={tag} className="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full">
                     {tag}
                   </span>
                 ))}
               </div>
             </div>
 
-            {/* Bio */}
             <p className="bg-gray-50 rounded-xl p-3 text-sm text-gray-600 leading-relaxed mb-5">
               {friend.bio}
             </p>
 
-            {/* Action Buttons */}
             <div className="space-y-2">
               <button className="w-full flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:bg-yellow-50 text-sm font-medium">
                 <i className="fa-regular fa-clock text-yellow-500"></i>
@@ -170,9 +138,10 @@ const FriendDetail = () => {
           </div>
         </div>
 
-        {/* RIGHT: Stats & Actions */}
+        {/* RIGHT: Stats, Goal, Check-in */}
         <div className="lg:col-span-3 space-y-4">
-          {/* Stat Cards */}
+
+          {/* Three stat cards */}
           <div className="grid grid-cols-3 gap-3">
             <div className="bg-white rounded-2xl p-4 border border-gray-100 text-center">
               <p className="text-2xl font-bold text-[#1e4d3b]">{friend.days_since_contact}</p>
@@ -194,12 +163,11 @@ const FriendDetail = () => {
               <h3 className="font-semibold text-gray-900 text-sm">Relationship Goal</h3>
               <button
                 onClick={() => setEditingGoal(!editingGoal)}
-                className="text-xs text-[#1e4d3b] font-medium flex items-center gap-1 hover:underline"
+                className="text-xs text-[#1e4d3b] font-medium flex items-center gap-1"
               >
                 <i className="fa-solid fa-pen text-xs"></i> Edit
               </button>
             </div>
-
             {editingGoal ? (
               <div className="flex items-center gap-3">
                 <p className="text-sm text-gray-500">Contact every</p>
@@ -212,11 +180,7 @@ const FriendDetail = () => {
                 />
                 <p className="text-sm text-gray-500">days</p>
                 <button
-                  onClick={() => {
-                    setGoal(tempGoal);
-                    setEditingGoal(false);
-                    toast.success('Goal updated!');
-                  }}
+                  onClick={() => { setGoal(tempGoal); setEditingGoal(false); toast.success('Goal updated!') }}
                   className="bg-[#1e4d3b] text-white px-3 py-1 rounded-lg text-xs font-medium"
                 >
                   Save
@@ -234,9 +198,9 @@ const FriendDetail = () => {
             <h3 className="font-semibold text-gray-900 text-sm mb-4">Quick Check-In</h3>
             <div className="grid grid-cols-3 gap-3">
               {[
-                { type: 'call', icon: 'fa-solid fa-phone', color: 'hover:bg-blue-50 text-blue-600' },
-                { type: 'text', icon: 'fa-solid fa-message', color: 'hover:bg-yellow-50 text-yellow-600' },
-                { type: 'video', icon: 'fa-solid fa-video', color: 'hover:bg-purple-50 text-purple-600' },
+                { type: 'call',  icon: 'fa-solid fa-phone',   color: 'hover:bg-blue-50   text-blue-600'   },
+                { type: 'text',  icon: 'fa-solid fa-message', color: 'hover:bg-yellow-50 text-yellow-600' },
+                { type: 'video', icon: 'fa-solid fa-video',   color: 'hover:bg-purple-50 text-purple-600' },
               ].map((item) => (
                 <button
                   key={item.type}
@@ -248,33 +212,12 @@ const FriendDetail = () => {
                 </button>
               ))}
             </div>
-
-            {/* Recent Check-ins */}
-            {timeline.length > 0 && (
-              <div className="mt-4 space-y-2">
-                <p className="text-xs text-gray-400 font-medium">Recent check-ins</p>
-                {timeline.slice(0, 3).map((entry) => (
-                  <div key={entry.id} className="flex items-center gap-2 text-xs text-gray-500">
-                    <i
-                      className={
-                        entry.type === 'call'
-                          ? 'fa-solid fa-phone text-blue-500'
-                          : entry.type === 'text'
-                          ? 'fa-solid fa-message text-yellow-500'
-                          : 'fa-solid fa-video text-purple-500'
-                      }
-                    ></i>
-                    <span>{entry.title}</span>
-                    <span className="ml-auto text-gray-300">{entry.date}</span>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
+
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FriendDetail;
+export default FriendDetail
