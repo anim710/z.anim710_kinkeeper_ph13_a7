@@ -1,4 +1,4 @@
-# KeenKeeper 🌿
+# KeenKeeper 
 
 > Your personal tool to keep tight connections. Browse, text, and nurture the relationships that make life more rich.
 
